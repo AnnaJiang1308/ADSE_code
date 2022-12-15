@@ -12,7 +12,6 @@ dependencies:
   - opencv=4.5.1
   - filterpy=1.4.5
   - sympy=1.7.1
-  
   - flake8=3.8.4
   - tqdm=4.59.0
   - ipywidgets=7.6.3
