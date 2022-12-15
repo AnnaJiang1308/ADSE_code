@@ -166,7 +166,7 @@ def get_aabb_polygon(trajectory: dict):
     ymin = x[1]
     xmax = x[2]
     ymax = x[3]
-    aabb = Polygon([(xmin, ymin), (xmin, ymax), (xmax, ymin), (xmax, ymax)]).buffer(0)
+    aabb = Polygon([(xmin, ymin), (xmin, ymax), (xmax, ymin), (xmax, ymax)]).envelope
     ########################
     #   End of your code   #
     ########################
