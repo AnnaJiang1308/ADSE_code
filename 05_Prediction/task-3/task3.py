@@ -82,7 +82,11 @@ class YourNet(nn.Module):
         #  Start of your code  #
         ########################
 
-        self.dec_rnn=0
+        self.dec_rnn = torch.nn.GRU(
+            4 * self.dyn_embedding_size,
+            self.decoder_size,
+            self.num_layers_dec,
+        )
 
         ########################
         #   End of your code   #
@@ -171,8 +175,8 @@ if __name__ == "__main__":
     #  Start of your code  #
     ########################
 
-    lr = 1e-4
-    n_epochs = 8
+    lr = 9e-3
+    n_epochs = 40
 
     ########################
     #   End of your code   #
@@ -185,14 +189,14 @@ if __name__ == "__main__":
     # Subtask 3:
     # ToDo: Successively execute the following training steps by umcommenting/commenting the respective code blocks.
     # 1. Start training in debugging mode to check if everything works fine
-    net_path = main_train(modelin=YourNet, learning_rate=lr, trainEpochs=n_epochs)
+    # net_path = main_train(modelin=YourNet, learning_rate=lr, trainEpochs=n_epochs)
 
     # 2. After debugging, train your net on the whole dataset:
-    # net_path = main_train(modelin=YourNet, learning_rate=lr, trainEpochs=n_epochs, full_train=True)
+    net_path = main_train(modelin=YourNet, learning_rate=lr, trainEpochs=n_epochs, full_train=True)
 
     # 3. Next, uncomment the following lines and check your net against the 'best model'
-    # your_model = eval_the_net(model_type=YourNet, net_path=net_path, visualization=False)
-    # best_mean_rmse, best_final_rmse = eval_the_net(model_type="best_model", visualization=False)
-    # worst_mean_rmse, worst_final_rmse = eval_the_net(model_type="no_training")
-    # result = compare_metrics(your_model, best_final_rmse, worst_final_rmse)
-    # print("\nYour Score is {:d} (Maximum is 3)".format(result))
+    your_model = eval_the_net(model_type=YourNet, net_path=net_path, visualization=False)
+    best_mean_rmse, best_final_rmse = eval_the_net(model_type="best_model", visualization=False)
+    worst_mean_rmse, worst_final_rmse = eval_the_net(model_type="no_training")
+    result = compare_metrics(your_model, best_final_rmse, worst_final_rmse)
+    print("\nYour Score is {:d} (Maximum is 3)".format(result))

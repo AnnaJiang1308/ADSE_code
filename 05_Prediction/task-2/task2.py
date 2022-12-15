@@ -61,9 +61,9 @@ class VelocityCalculator:
             #   in our case: 30 x 1 x 2 (batch size of 1)
             # - 't_hist' is a list of arrays, each list for one batch, length auf each array is 30 (History-length)
             # ToDo: Uncomment the following lines and derive the desired values
-            # x_obj = ...  # Dimension: (hist_len,)
-            # y_obj = ...  # Dimension: (hist_len,)
-            # t_obj = ...  # Dimension: (hist_len,)
+            x_obj = np.asarray(previous_positions[:, :, 0].reshape((hist_len, )))  # Dimension: (hist_len, )
+            y_obj = np.asarray(previous_positions[:, :, 1].reshape((hist_len, )))  # Dimension: (hist_len, )
+            t_obj = np.asarray(t_hist)   # Dimension: (hist_len,)
 
             # Subtask 2:
             # Stack (np.vstack / np.stack) the x- and y-array. Determine the euclidean distance between successive
@@ -71,34 +71,34 @@ class VelocityCalculator:
             # Hint: After np.diff you will lose one dimension step (30 --> 29),
             #       so add an addtional value (0.0) at index [0] to get back to dimension 30.
             # ToDo: Uncomment the following lines and derive the desired values
-            # xy_obj = np.vstack()  # Dimension: (30, 2)
+            xy_obj = np.vstack((x_obj, y_obj))  # Dimension: (30, 2)
             # (np.diff, np.linalg.norm, np.cumsum)  # Dimension: (30, 2)
-            # s_obj = ... # Dimension: (29,) --> (30,)
-            # dt_obj = ...   # float
+            s_obj = np.linalg.norm(np.diff(xy_obj), axis=0)
+            s_obj = np.insert(s_obj, 0, 0.0)  # Dimension: (29,) --> (30,)
+            dt_obj = np.mean(np.diff(t_obj))   # float
 
             # Subtask 3: Determine the speed feature: v = ds / dt (first derivation),
             #             use a filter (savgol_filter) to reduce noise.
             # Hint:
             #   - Doc: https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.savgol_filter.html
             # ToDo: Uncomment the following lines and derive the desired values
-            # vel_obj = savgol_filter(
-            #     x= ...,
-            #     window_length=n_interpolations,
-            #     polyorder=n_polyfit,
-            #     deriv= ...,
-            #     delta= ...,
-            # )
-            # vel_obj.shape = (30,)
+            vel_obj = savgol_filter(
+                x=s_obj / dt_obj,
+                window_length=n_interpolations,
+                polyorder=n_polyfit,
+                deriv=0,
+                delta=dt_obj
+            )
+            vel_obj.shape = (30,)
 
             # Subtask 4: Append vel_obj to velocity array
             # ToDo: Uncomment the following lines and derive the desired values
-            # velocity_array [] = ..  # Dimension: (30, n)
-            pass
+            velocity_array[:, n] = vel_obj   # Dimension: (30, n)
 
         # Subtask 5:
         # ToDo: Return velocity_array
-        
-        return None
+
+        return velocity_array
 
         ########################
         #   End of your code   #
@@ -161,14 +161,14 @@ if __name__ == "__main__":
     # What do you think about the results?
 
     # # Uncomment and run the script
-    # # Net Trainig without velocity feature
-    # net_weights = main_train(full_train=True)
-    # no_velocity_metrics = eval_velocity_influence(net_weights)
+    # Net Trainig without velocity feature
+    net_weights = main_train(full_train=True)
+    no_velocity_metrics = eval_velocity_influence(net_weights)
 
-    # # Net Trainig with (your) velocity feature
-    # vel = VelocityCalculator()
-    # net_weights = main_train(vel, full_train=True)
-    # with_velocity_metrics = eval_velocity_influence(net_weights, vel)
+    # Net Trainig with (your) velocity feature
+    vel = VelocityCalculator()
+    net_weights = main_train(vel, full_train=True)
+    with_velocity_metrics = eval_velocity_influence(net_weights, vel)
 
-    # # Comparison
-    # compare_performance(no_velocity_metrics, with_velocity_metrics)
+    # Comparison
+    compare_performance(no_velocity_metrics, with_velocity_metrics)
