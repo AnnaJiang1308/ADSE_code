@@ -12,6 +12,10 @@ dependencies:
   - opencv=4.5.1
   - filterpy=1.4.5
   - sympy=1.7.1
+<<<<<<< HEAD
+=======
+  - pytorch=1.6.0
+>>>>>>> 0dd3c5f (gitignore)
   - flake8=3.8.4
   - tqdm=4.59.0
   - ipywidgets=7.6.3
@@ -31,4 +35,5 @@ dependencies:
   - webencodings=0.5.1
   - wheel=0.36.2
   - pyproj=3.0.1
+  - ca-certificates=2021.1.19
   - certifi=2020.12.5
