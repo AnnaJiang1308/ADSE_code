@@ -35,6 +35,8 @@ def control(d_m, d_m_old, v_mps, radius_m, tS_s, lf_m, lr_m):
     ########################
     #  Start of your code  #
     ########################
+    d_dot=(d_m-d_m_old)/tS_s
+    steering=(radius_m-(0.02*d_m+0.15*d_dot)/(v_mps**2))*(lf_m+lr_m)
 
     ########################
     #   End of your code   #
