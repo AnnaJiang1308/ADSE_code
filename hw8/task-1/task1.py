@@ -42,7 +42,9 @@ def solve_kinematic_bicycle(x0, delta_rad, v_mps):
     ########################
     #  Start of your code  #
     ########################
-
+    p1[0] = x0[0]
+    p2[0] = x0[1]
+    psi[0]= x0[2]
     ########################
     #   End of your code   #
     ########################
@@ -56,7 +58,10 @@ def solve_kinematic_bicycle(x0, delta_rad, v_mps):
         ########################
         #  Start of your code  #
         ########################
-
+        beta = np.arctan(np.tan(delta_rad[i-1]) * lr_m / (lf_m + lr_m))
+        psi[i] = psi[i - 1] + tS * np.tan(delta_rad[i-1]) * v_mps[i-1] / (lf_m + lr_m)
+        p1[i] = p1[i-1] + tS*v_mps[i-1]*np.cos(psi[i-1]+ beta)
+        p2[i] = p2[i-1] + tS*v_mps[i-1]*np.sin(psi[i-1]+ beta)
         continue
 
         ########################
