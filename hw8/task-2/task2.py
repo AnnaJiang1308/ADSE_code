@@ -35,8 +35,8 @@ def control(d_m, d_m_old, v_mps, radius_m, tS_s, lf_m, lr_m):
     ########################
     #  Start of your code  #
     ########################
-    d_dot=(d_m-d_m_old)/tS_s
-    steering=(radius_m-(0.02*d_m+0.15*d_dot)/(v_mps**2))*(lf_m+lr_m)
+    d_dot = (d_m - d_m_old) / tS_s
+    steering = (radius_m - (0.1 * d_m - 0.001 * d_dot) / (v_mps**2)) * (lf_m + lr_m)
 
     ########################
     #   End of your code   #
@@ -108,14 +108,14 @@ def solve_closed_loop(radius_m, v_mps):
 if __name__ == "__main__":
     # straight driving
     p1, p2, psi, _, d_m = solve_closed_loop(20, 10)
-    plt.plot(p1, p2)
-    plt.gca().set_aspect('equal', adjustable='box')
-    plt.grid()
-    plt.xlabel('East coordinate in m')
-    plt.ylabel('North coordinate in m')
-    plt.show()
-    plt.plot(d_m)
-    plt.grid()
-    plt.xlabel('Steps')
-    plt.ylabel('Lateral error in m')
-    plt.show()
+    # plt.plot(p1, p2)
+    # plt.gca().set_aspect('equal', adjustable='box')
+    # plt.grid()
+    # plt.xlabel('East coordinate in m')
+    # plt.ylabel('North coordinate in m')
+    # plt.show()
+    # plt.plot(d_m)
+    # plt.grid()
+    # plt.xlabel('Steps')
+    # plt.ylabel('Lateral error in m')
+    # plt.show()
